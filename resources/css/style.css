@@ -1,0 +1,80 @@
+@import url(//fonts.googleapis.com/earlyaccess/notokufiarabic.css);
+body{
+    direction: rtl;
+    font-family: 'Noto Kufi Arabic', sans-serif;
+}
+header .overlay{
+    background-image: url('/img/bg.png');
+    -webkit-background-size:cover; /* CSS3 */
+    -moz-background-size:cover; /* CSS3 */
+    -o-background-size:cover; /* CSS3 */
+    background-size:cover; /* CSS3 */
+    background-repeat: no-repeat;
+}
+header .overlay .intro{
+    color:#fff;
+}
+header .overlay .intro p:first-child{
+    font-size: 41px;
+    font-weight: 700;
+    line-height: 53px;
+}
+header .overlay .intro p:last-child{
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 26px;
+    color:#d2cece;
+}
+section .phones{
+    transform: translateY(-25%);
+}
+.phones .last{
+    margin-right: -25px;
+    transform: translateY(12%);
+}
+/* section .phones img:last-of-type{
+    margin-top: 130px;
+    margin-right: -40px;
+} */
+footer{
+    background-color: #171717;
+    min-height: 66px;
+    color:#fff;
+}
+footer .container-fluid,footer .row{min-height: inherit;}
+
+footer p{
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 0;
+    margin: 0;
+}
+footer .footer-logo{
+    width: 129px;
+    height: 40px;
+}
+footer .copyright{color:#7d7d7d}
+
+@media (max-width:767px){
+    header .overlay{
+        background-image: url('../storage/imgs/cover-sm.png');
+    }
+    header .overlay .intro p:first-child{
+        font-size: 22px;
+        line-height: 26px;
+    }
+    
+    footer{
+        padding: 10px 0;
+    }
+    footer .row .col-sm-12{
+        text-align: center !important;
+        margin:10px 0;
+    }
+    footer .footer-logo{
+        width: 90px;
+        height: 28px;
+    }
+    
+}
