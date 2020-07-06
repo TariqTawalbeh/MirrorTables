@@ -18,8 +18,11 @@ class TaskController extends Controller
         $tasks = Todo::orderBy('id')
             ->orderByDesc('created_at')
             ->paginate(5);
+        $tasksMirror = TodoMirror::orderBy('id')
+            ->orderByDesc('created_at')
+            ->paginate(5);
         // print_r($tasks);die;
-        return view('tasks', ['tasks' => $tasks]);
+        return view('tasks', ['tasks' => $tasks, 'tasksMirror' => $tasksMirror]);
     }
 
     /**
@@ -45,7 +48,7 @@ class TaskController extends Controller
             'name' => 'required|string|max:255',
             'description' => '',
         ]);
-        // create a new incomplete task with the given title
+        // create a new task with the given title and description on mirror table or main table 
         if($request->get('mainTableOn')){
             Todo::create([
                 'name' => $data['name'],
@@ -94,20 +97,21 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $task = Todo::findOrFail($id);
-        dd($request);
-        // $task->id = $id;
-        $task->name = $request['name'];
-        $task->description = $request['description'];
-        $task->save();
+        // get the edit ajax request to edit fields 
+        if($request->ajax()){
+            
+            // check if the edited field is on mirror table or in the main table and do the edit
+            if($request->input('mirror')){
+                TodoMirror::find($request->input('pk'))->update([$request->input('name') => $request->input('value')]);
+            } else {
+                Todo::find($request->input('pk'))->update([$request->input('name') => $request->input('value')]);    
+            }
+            
+            return response()->json(['success' => true]);
+        }
 
-        // flash a success message to the session
-        session()->flash('status', 'Task Updated!');
-
-        // redirect to tasks index
-        return redirect('/tasks');
     }
 
     /**
@@ -116,8 +120,17 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if($request->get('from')){
+            $todo = TodoMirror::find($id);
+        } else {
+            $todo = Todo::find($id);
+        }
+        
+        $todo->delete();
+        return response()->json([
+            'message' => 'Data deleted successfully!'
+        ]);
     }
 }

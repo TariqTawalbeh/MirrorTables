@@ -10,4 +10,19 @@ class TodoMirror extends Model
         'name',
         'description',
     ];
+
+	public function saveQuietly(array $options = [])
+	{
+	    return static::withoutEvents(function () use ($options) {
+	        return $this->update($options);
+	    });
+	}
+
+	public function deleteQuietly(array $options = [])
+	{
+	    return static::withoutEvents(function () use ($options) {
+	        return $this->delete($options);
+	    });
+	}
+
 }

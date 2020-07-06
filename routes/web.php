@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::resource('tasks', 'TaskController', [
-        
-    ]);
+Route::delete('/destroy/{id}', 'TaskController@destroy')->name('task.destroy');
+Route::post('tasks/update','TaskController@update');
+Route::resource('tasks', 'TaskController')->except(['update', 'delete', 'destroy']);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

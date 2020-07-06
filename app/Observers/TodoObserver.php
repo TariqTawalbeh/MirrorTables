@@ -39,13 +39,16 @@ class TodoObserver
 
     public function updating(Todo $todo)
     {
-      if($todo->isDirty('name') || $todo->isDirty('description')){
+        if($todo->isDirty('name')){
+            TodoMirror::find($todo->id)->saveQuietly(['name' => $todo->name]);
+        }
+
+        if($todo->isDirty('description')){
+            TodoMirror::find($todo->id)->saveQuietly(['description' => $todo->description]);
+        }
+
             
-            $todoMirror->id = $todo->id;
-            $todoMirror->name = $todo->name;
-            $todoMirror->description = $todo->description;
-            $todoMirror->save();        
-      }
+
     }
 
     /**
@@ -56,7 +59,14 @@ class TodoObserver
      */
     public function deleted(Todo $todo)
     {
-        //
+        // if($todo->isDirty('name')){
+            TodoMirror::find($todo->id)->deleteQuietly();
+        // }
+
+        // if($todo->isDirty('description')){
+            // TodoMirror::find($todo->id)->saveQuietly(['description' => $todo->description]);
+        // }
+        
     }
 
     /**
