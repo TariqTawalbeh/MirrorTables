@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::delete('/destroy/{id}', 'TaskController@destroy')->name('task.destroy');
-Route::post('tasks/update','TaskController@update');
+Route::post('tasks/update','TaskController@update')->name('task.updated');
 Route::resource('tasks', 'TaskController')->except(['update', 'delete', 'destroy']);
 Auth::routes();
 

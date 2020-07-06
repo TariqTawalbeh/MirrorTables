@@ -62,7 +62,7 @@ class TaskController extends Controller
         }
 
         // flash a success message to the session
-        session()->flash('status', 'Task Created!');
+        session()->flash('success');
 
         // redirect to tasks index
         return redirect('/tasks');
@@ -100,9 +100,9 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         // get the edit ajax request to edit fields 
-        if($request->ajax()){
-            
+        if($request->ajax()){            
             // check if the edited field is on mirror table or in the main table and do the edit
+            // echo $request->input('mirror');die;
             if($request->input('mirror')){
                 TodoMirror::find($request->input('pk'))->update([$request->input('name') => $request->input('value')]);
             } else {
@@ -127,7 +127,7 @@ class TaskController extends Controller
         } else {
             $todo = Todo::find($id);
         }
-        
+
         $todo->delete();
         return response()->json([
             'message' => 'Data deleted successfully!'
